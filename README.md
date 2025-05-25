@@ -110,10 +110,3 @@ go build -o ../dnsresolver main.go
 ## 📜 License
 
 MIT — do whatever you want.
-
----
-
-## 👤 Author
-
-Built by [Your Name], for those who want complete DNS control with zero overhead.
-
