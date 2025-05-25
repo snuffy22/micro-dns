@@ -1,0 +1,16 @@
+# Port to bind the resolver (must be >1024 for non-root users)
+listen_port: "1053"
+
+# Path to the DNS zone file
+hosts_file: "zones.txt"
+
+# Logging level (optional)
+log_level: "info"
+
+# How often (in seconds) to check for changes in zones.txt
+poll_freq: 5
+
+# Optional fallback DNS server (UDP only)
+# Leave blank or omit to disable fallback
+fallback_dns: "8.8.8.8:53"
+
