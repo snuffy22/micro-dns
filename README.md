@@ -14,6 +14,7 @@ A lightweight, user-level DNS resolver in a single Go binary. It resolves `A`, `
 - ✅ Hot reloads zone file on change
 - ✅ Optional UDP fallback (e.g. `8.8.8.8`)
 - ✅ CLI flags override `config.yaml`
+- ✅ Docker-ready, supports `PORT` env var
 
 ---
 
@@ -24,6 +25,7 @@ dnsresolver       # prebuilt binary
 src/              # Go source code (main.go, etc.)
 zones.txt         # DNS zone file
 config.yaml       # Configuration file
+Dockerfile        # Container definition
 README.md         # This file
 ```
 
@@ -53,14 +55,33 @@ mail.example.     300 IN MX    10 mailserver.local.
 
 ## 🚀 Usage
 
-### Run the included binary
+### Run Prebuilt Binary
 ```bash
 ./dnsresolver
 ```
 
-### Run with CLI overrides
+### Run with CLI Overrides
 ```bash
 ./dnsresolver --port 1053 --zones zones.txt --fallback 1.1.1.1:53 --poll 10
+```
+
+---
+
+## 🐳 Docker Support
+
+### Build Docker Image
+```bash
+docker build -t micro-dns .
+```
+
+### Run with Default Port (1053)
+```bash
+docker run -p 1053:1053/udp --rm micro-dns
+```
+
+### Run with Custom Port via `PORT` Environment Variable
+```bash
+docker run -e PORT=5300 -p 5300:5300/udp --rm micro-dns
 ```
 
 ---
@@ -83,21 +104,7 @@ nslookup example.local 127.0.0.1
 
 ---
 
-## 🧰 CLI Flags
-
-| Flag         | Description                                 |
-|--------------|---------------------------------------------|
-| `--config`   | Path to config file (default: `config.yaml`)|
-| `--port`     | UDP port to listen on                       |
-| `--zones`    | Path to zone file                           |
-| `--poll`     | Zone reload interval in seconds             |
-| `--fallback` | Optional UDP fallback DNS server            |
-
----
-
-## ⚙️ Optional: Build from Source
-
-If needed, you can build from source in the `src/` directory:
+## ⚙️ Optional: Build From Source
 
 ```bash
 cd src
@@ -110,3 +117,4 @@ go build -o ../dnsresolver main.go
 ## 📜 License
 
 MIT — do whatever you want.
+

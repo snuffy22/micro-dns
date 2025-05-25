@@ -55,9 +55,13 @@ func parseFlags() {
 
 	_ = loadConfig(*configPath)
 
-	if *port != "" {
+	// Env var PORT overrides everything else
+	if envPort := os.Getenv("PORT"); envPort != "" {
+		config.ListenPort = envPort
+	} else if *port != "" {
 		config.ListenPort = *port
 	}
+
 	if *zones != "" {
 		config.HostsFile = *zones
 	}
@@ -246,7 +250,7 @@ func handleDNSRequest(w dns.ResponseWriter, r *dns.Msg) {
 }
 
 func main() {
-	log.SetOutput(os.Stdout) // Ensure logging goes to stdout
+	log.SetOutput(os.Stdout)
 
 	parseFlags()
 
